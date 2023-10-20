@@ -1,11 +1,44 @@
 // Multithreading.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include <iostream>
+#include "Multithreading.h"
+
+static void ThreadCounter()
+{
+	mThreadCount++;
+}
+
+void NumberRun(std::vector<int> num)
+{
+	std::cout << "Thread started!" << std::endl;
+	ThreadCounter();
+	std::cin.get();
+	for (const auto& i : num)
+	{
+		int myMax = (std::rand()/10);
+		for (int j = 0; j < myMax; j++)
+		{
+			std::cout << "Number: " << j << "/" << myMax << std::endl;
+		}
+	}
+
+}
+
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	std::vector<int> myVec(4,0);
+    std::thread myThread2(NumberRun, myVec);
+    std::thread myThread(NumberRun, myVec);
+    std::thread myThread1(NumberRun, myVec);
+
+	myThread2.join();
+	myThread.join();
+	std::cout << "All threads are finished!" << std::endl;
+	std::cout << "Number of threads run: " << mThreadCount;
+	std::cin.get();
+
+	myThread1.join();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
